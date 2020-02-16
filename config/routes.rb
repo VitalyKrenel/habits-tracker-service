@@ -2,8 +2,12 @@ Rails.application.routes.draw do
   scope 'api' do
     resources :users
 
-    post 'auth', to: 'auth#auth'
-    get 'me', to: 'auth#me'
+    scope 'profile' do
+      get '/', to: 'profile#me'
+      post '/', to: 'profile#edit'
+      post 'auth', to: 'profile#auth'
+      post 'register', to: 'profile#register'
+    end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
