@@ -7,7 +7,14 @@ class AuthenticateUser
   end
 
   def call
-    JWT.encode(user_id: user.id) if user
+    if user
+      # move to config or env
+      data = {user_id: user.id}
+      secret = 'secret'
+      algo = 'HS256'
+
+      JWT.encode(data, secret, algo)
+    end
   end
 
   private

@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate_request
   attr_reader :current_user
 
   def parse_request(required_fields = [])
@@ -37,7 +36,7 @@ class ApplicationController < ActionController::API
 
   private
 
-  def authenticate_request
+  def auth
     @current_user = AuthorizeApiRequest.call(request.headers).result
     render json: {error: 'Not Authorized'}, status: 401 unless @current_user
   end
