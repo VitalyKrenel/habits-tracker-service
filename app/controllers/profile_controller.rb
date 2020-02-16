@@ -12,12 +12,6 @@ class ProfileController < ApplicationController
   end
 
   def register
-    begin
-      user_params = parse_request(%w(email login password name))
-    rescue Exception => e
-      render json: e.message and return
-    end
-
     @user = User.new(user_params)
 
     if @user.save
@@ -39,5 +33,11 @@ class ProfileController < ApplicationController
     else
       render json: @current_user.errors, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def user_params
+    params.permit(:name, :email, :login, :password, :password_confirmation)
   end
 end
