@@ -12,9 +12,17 @@ class User
 
   has_secure_password
 
-  validates :email, presence: true, uniqueness: true
-  validates :login, presence: true, uniqueness: true, length: {minimum: 3}
-  validates :password, presence: true, length: {in: 6..20}
-  validates :password_confirmation, presence: true
-  validates :name, presence: true, length: {minimum: 3}
+  validates :password, length: {in: 6..20}, presence: true
+  validates :email, uniqueness: true, format: {
+      with: /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/i,
+      message: 'invalid email format'
+  }, allow_blank: true
+  validates :login, uniqueness: true, length: {minimum: 3}, allow_blank: true
+  validates :name, length: {minimum: 3}, allow_blank: true
+
+  validates :email, on: :create, presence: true
+  validates :login, on: :create, presence: true
+  validates :password, on: :create, confirmation: true
+  validates :password_confirmation, on: :create, presence: true
+  validates :name, on: :create, presence: true
 end

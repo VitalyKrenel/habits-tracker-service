@@ -22,10 +22,8 @@ class ProfileController < ApplicationController
   end
 
   def edit
-    begin
-      user_params = parse_request.select { |key, value| User.attribute_names.include? key }
-    rescue Exception => e
-      render json: e.message and return
+    unless @current_user.authenticate(params[:current_password])
+      render json: {error: 'Invalid password'}, status: 403 and return
     end
 
     if @current_user.update(user_params)
