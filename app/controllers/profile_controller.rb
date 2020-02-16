@@ -26,6 +26,10 @@ class ProfileController < ApplicationController
       render json: {error: 'Invalid password'}, status: 403 and return
     end
 
+    if @current_user.login === 'admin'
+      render json: {message: 'stop this shit'}, status: 418 and return
+    end
+
     if @current_user.update(user_params)
       render json: @current_user, except: :password_digest
     else
