@@ -1,5 +1,5 @@
 class ProfileController < ApplicationController
-  before_action :auth_api, only: [:me]
+  before_action :auth_api, only: [:me, :edit]
 
   def auth
     command = AuthenticateUser.call(params[:email], params[:password])
@@ -9,10 +9,6 @@ class ProfileController < ApplicationController
     else
       render json: {error: command.errors}, status: :unauthorized
     end
-  end
-
-  def me
-    render json: @current_user, except: :password_digest
   end
 
   def register
@@ -39,9 +35,9 @@ class ProfileController < ApplicationController
     end
 
     if @current_user.update(user_params)
-      render json: @user, except: :password_digest
+      render json: @current_user, except: :password_digest
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: @current_user.errors, status: :unprocessable_entity
     end
   end
 end
