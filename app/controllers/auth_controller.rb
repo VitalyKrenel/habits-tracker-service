@@ -1,4 +1,6 @@
 class AuthController < ApplicationController
+  before_action :auth_api, only: [:me]
+
   def auth
     command = AuthenticateUser.call(params[:email], params[:password])
 
@@ -10,6 +12,6 @@ class AuthController < ApplicationController
   end
 
   def me
-
+    render json: @current_user
   end
 end
