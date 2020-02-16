@@ -10,8 +10,8 @@ class AuthenticateUser
     if user
       # move to config or env
       data = {user_id: user.id}
-      secret = 'secret'
-      algo = 'HS256'
+      secret = ENV['JWT_SECRET']
+      algo = ENV['JWT_ALGO']
 
       JWT.encode(data, secret, algo)
     end

@@ -52,6 +52,10 @@ GEM
     byebug (11.1.1)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
+    dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     erubi (1.9.0)
     ffi (1.12.2)
     globalid (0.4.2)
@@ -145,6 +149,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   bson_ext
   byebug
+  dotenv-rails
   jwt
   listen (>= 3.0.5, < 3.2)
   mongoid (~> 7.0.5)

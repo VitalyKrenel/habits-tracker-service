@@ -19,8 +19,8 @@ class AuthorizeApiRequest
   end
 
   def decoded_auth_token
-    secret = 'secret'
-    algo = 'HS256'
+    secret = ENV['JWT_SECRET']
+    algo = ENV['JWT_ALGO']
     @decoded_auth_token ||= JWT.decode http_auth_header, secret, algo
   end
 
