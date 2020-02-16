@@ -12,6 +12,6 @@ class AuthController < ApplicationController
   end
 
   def me
-    render json: @current_user
+    render json: @current_user, except: :password_digest
   end
 end
