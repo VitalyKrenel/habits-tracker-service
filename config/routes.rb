@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
     scope 'profile' do
       get '/', to: 'profile#me'
-      post '/', to: 'profile#edit'
+      put '/', to: 'profile#edit'
       post 'auth', to: 'profile#auth'
       post 'register', to: 'profile#register'
     end
