@@ -20,7 +20,6 @@ class User
       message: 'invalid email format'
   }, allow_blank: true
   validates :login, uniqueness: true, length: {minimum: 3}, allow_blank: true
-  validates :name, allow_blank: true
 
   validates :email, on: :create, presence: true
   validates :login, on: :create, presence: true

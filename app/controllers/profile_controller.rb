@@ -37,6 +37,14 @@ class ProfileController < ApplicationController
     end
   end
 
+  def me
+    if @current_user
+      render json: @current_user, except: :password_digest
+    else
+      render json: @current_user.errors, status: :unauthorized
+    end
+  end
+
   private
 
   def user_params
