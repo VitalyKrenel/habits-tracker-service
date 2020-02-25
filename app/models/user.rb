@@ -3,6 +3,8 @@ class User
   include ActiveModel::SecurePassword
   include ActiveModel::Validations
 
+  EMAIL_REGEXP = /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/i
+
   field :email, type: String
   index({email: 1}, {unique: true, name: 'email_unique_index'})
   field :login, type: String
@@ -14,11 +16,11 @@ class User
 
   validates :password, length: {in: 6..20}, presence: true
   validates :email, uniqueness: true, format: {
-      with: /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/i,
+      with: EMAIL_REGEXP,
       message: 'invalid email format'
   }, allow_blank: true
   validates :login, uniqueness: true, length: {minimum: 3}, allow_blank: true
-  validates :name, length: {minimum: 3}, allow_blank: true
+  validates :name, allow_blank: true
 
   validates :email, on: :create, presence: true
   validates :login, on: :create, presence: true
