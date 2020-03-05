@@ -1,25 +1,19 @@
 class HabitsController < ApplicationController
-  before_action :set_habit, only: [:show, :update, :destroy]
+  before_action :auth_api
+  before_action :set_habit, only: [:update, :destroy]
+  before_action :validate_habit_name, only: [:create, :update]
 
   # GET /habits
   def index
     # get habits for current user only
-    @habits = Habit.all
-
-    render json: @habits
-  end
-
-  # GET /habits/1
-  def show
-    # get habits for current user only
-    render json: @habit
+    render json: @current_user.habits
   end
 
   # POST /habits
   def create
-    # create current for current user
+    # create habit for current user
     @habit = Habit.new(habit_params)
-    @habit.user = User.find(habit_params[:user_id])
+    @habit.user = @current_user
 
     if @habit.save
       render json: @habit, status: :created, location: @habit
@@ -43,13 +37,20 @@ class HabitsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_habit
-      @habit = Habit.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def habit_params
-      params.permit(:name, :description, :user_id)
+  # Use callbacks to share common setup or constraints between actions.
+  def set_habit
+    @habit = @current_user.habits.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def habit_params
+    params.permit(:name, :description, :date, :status)
+  end
+
+  def validate_habit_name
+    if @current_user.habits.where({'name': habit_params[:name]}).exists?
+      render json: {:name => ['is already exists']}, status: :unprocessable_entity
     end
+  end
 end
