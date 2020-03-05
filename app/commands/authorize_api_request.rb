@@ -21,7 +21,11 @@ class AuthorizeApiRequest
   def decoded_auth_token
     secret = ENV['JWT_SECRET']
     algo = ENV['JWT_ALGO']
-    @decoded_auth_token ||= JWT.decode http_auth_header, secret, algo if http_auth_header
+    begin
+      @decoded_auth_token ||= JWT.decode http_auth_header, secret, algo if http_auth_header
+    rescue JWT::ExpiredSignature
+      @decoded_auth_token = false
+    end
   end
 
   def http_auth_header

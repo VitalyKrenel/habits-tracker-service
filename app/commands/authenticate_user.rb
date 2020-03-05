@@ -9,7 +9,7 @@ class AuthenticateUser
   def call
     if user
       # move to config or env
-      data = {user_id: user.id}
+      data = {user_id: user.id, exp: Time.now.to_i + 24 * 3600}
       secret = ENV['JWT_SECRET']
       algo = ENV['JWT_ALGO']
 
