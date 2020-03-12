@@ -1,6 +1,6 @@
 class HabitsController < ApplicationController
   before_action :auth_api
-  before_action :set_habit, only: [:update, :destroy]
+  before_action :set_habit, only: [:update, :destroy, :show]
   before_action :validate_habit_name, only: [:create, :update]
 
   # GET /habits
@@ -19,6 +19,15 @@ class HabitsController < ApplicationController
       render json: @habit, status: :created, location: @habit
     else
       render json: @habit.errors, status: :unprocessable_entity
+    end
+  end
+
+  # GET /habits/1
+  def show
+    if @habit
+      render json: @habit
+    else
+      render json: {:error => 'Not found'}, status: :not_found
     end
   end
 
