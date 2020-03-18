@@ -15,9 +15,11 @@ class HabitStatsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_habit_stat
-    @habit = @current_user.habits.find(params[:id])
-
-    @stat = @habit.habit_stats.where({'date': habit_stat_params[:date]}).first
+    @stat = HabitStat.find({
+                               'date': habit_stat_params[:date],
+                               'habit_id': habit_stat_params[:id],
+                               'user_id': @current_user.id
+                           })
 
     if @stat
       @stat.status = habit_stat_params[:status]
@@ -26,8 +28,6 @@ class HabitStatsController < ApplicationController
       @stat.user = @current_user
       @stat.habit = @habit
     end
-
-    @stat
   end
 
   # Only allow a trusted parameter "white list" through.

@@ -3,7 +3,7 @@ services:
   db:
     image: mongo
     volumes:
-      - /data/db
+      - mongo_data:/data/db
     ports:
       - "27017:27017"
   web:
@@ -21,3 +21,4 @@ services:
 
 volumes:
   bundle_path:
+  mongo_data:
