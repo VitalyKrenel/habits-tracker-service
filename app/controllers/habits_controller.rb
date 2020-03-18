@@ -6,10 +6,13 @@ class HabitsController < ApplicationController
   # GET /habits
   def index
     # get habits for current user only
-    render json: @current_user.habits.only(
+
+    habits = @current_user.habits.only(
         :name,
         :description,
     )
+
+    render json: paginate(habits)
   end
 
   # POST /habits

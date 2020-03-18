@@ -35,10 +35,10 @@ class ApplicationController < ActionController::API
   end
 
   def paginate data
+    per_page = params[:per_page] ? params[:per_page] : 15
     page = params[:page].to_i
-    per_page = 2
-    skip_pages = page > 1 ? 2 * (page - 1) : 0
-    total = data.count / per_page
+    skip_pages = page > 1 ? per_page * (page - 1) : 0
+    total = (data.count.to_f / per_page.to_f).ceil
 
     {
         data: data.limit(per_page).skip(skip_pages),
