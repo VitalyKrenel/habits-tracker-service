@@ -4,8 +4,7 @@ class HabitStat
 
   field :status, type: Integer
   field :date, type: Date
-  belongs_to :habit
-  belongs_to :user
+  embedded_in :habit
 
   STATUS_UNDEFINED = 0
   STATUS_COMPLETE = 1

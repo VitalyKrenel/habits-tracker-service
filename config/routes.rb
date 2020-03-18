@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :users
     resources :habits
 
-    post 'habits/:id/set_stats', to: 'habit_stats#set'
+    post 'habits/:habit_id/set_stats', to: 'habit_stats#set'
 
     scope 'profile' do
       get '/', to: 'profile#me'
