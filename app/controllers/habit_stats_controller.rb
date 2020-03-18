@@ -4,6 +4,8 @@ class HabitStatsController < ApplicationController
 
   # POST /habits/1/stats
   def set
+    @stat.status = params[:status]
+
     if @stat.save
       render json: @stat, status: :created
     else
@@ -11,24 +13,25 @@ class HabitStatsController < ApplicationController
     end
   end
 
+  # GET /habits/1/stats
+  def get
+    @stat = @current_user.habits.find(params[:habit_id]).habit_stats.order_by({date: 1})
+
+    if @stat
+      render json: paginate(@stat), except: :_id
+    else
+      render json: {:error => 'Not found'}, status: :not_found
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_habit_stat
-    @habit = @current_user.habits.find(habit_stat_params[:habit_id])
-
-    @stat = @habit.habit_stats.find_by({'date': habit_stat_params[:date]})
-
-    unless @stat
-      @stat = @habit.habit_stats.new
-      @stat.date = habit_stat_params[:date]
-    end
-
-    @stat.status = habit_stat_params[:status]
-  end
-
-  # Only allow a trusted parameter "white list" through.
-  def habit_stat_params
-    params.permit(:status, :date, :habit_id)
+    @stat = @current_user
+                .habits.find(params[:habit_id])
+                .habit_stats.find_or_create_by({
+                                                   'date': params[:date]
+                                               })
   end
 end
