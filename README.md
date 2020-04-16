@@ -29,6 +29,6 @@ If there some problems, check and fix `Gemfile`, and update `Gemfile.lock` with 
 
     2. docker-compose up -d
 
-    3. docker-compose web exec rails db:seed (only first start)
+    3. docker-compose exec web rails db:seed (only first start)
 
     4. Go to http://localhost:3000
