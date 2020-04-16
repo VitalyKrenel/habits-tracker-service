@@ -21,4 +21,16 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+
+## Instructions:
+    1. docker-compose build
+
+If there some problems, check and fix `Gemfile`, and update `Gemfile.lock` with command:
+
+```docker-compose web run bundle```
+
+    2. docker-compose web rails db:seed
+
+    3. docker-compose up -d
+
+    4. Go to http://localhost:3000
