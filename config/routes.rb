@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   scope 'api' do
     resources :users
+    resources :habits
 
     scope 'profile' do
       get '/', to: 'profile#me'

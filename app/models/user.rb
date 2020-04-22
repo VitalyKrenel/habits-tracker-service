@@ -11,6 +11,7 @@ class User
   index({login: 1}, {unique: true, name: 'login_unique_index'})
   field :password_digest, type: String
   field :name, type: String
+  has_many :habits
 
   has_secure_password
 
