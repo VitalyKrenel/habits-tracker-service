@@ -9,9 +9,10 @@ class HabitStat
   STATUS_UNDEFINED = 0
   STATUS_COMPLETE = 1
   STATUS_MISSED = 2
+  STATUS_NEUTRAL = 3
 
   validates :status,
-            inclusion: {in: [STATUS_COMPLETE, STATUS_MISSED, STATUS_UNDEFINED]},
+            inclusion: {in: [STATUS_COMPLETE, STATUS_MISSED, STATUS_UNDEFINED, STATUS_NEUTRAL]},
             presence: true
   validates :date, date: true, presence: true
 end
