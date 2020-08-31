@@ -34,6 +34,18 @@ class ApplicationController < ActionController::API
     success
   end
 
+  def paginate data
+    per_page = params[:per_page] ? params[:per_page] : 15
+    page = params[:page].to_i
+    skip_pages = page > 1 ? per_page * (page - 1) : 0
+    total = (data.count.to_f / per_page.to_f).ceil
+
+    {
+        data: data.limit(per_page).skip(skip_pages),
+        total_pages: total
+    }
+  end
+
   private
 
   def auth_api

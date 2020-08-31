@@ -3,6 +3,9 @@ Rails.application.routes.draw do
     resources :users
     resources :habits
 
+    get 'habits/:habit_id/stats', to: 'habit_stats#get'
+    post 'habits/:habit_id/stats', to: 'habit_stats#set'
+
     scope 'profile' do
       get '/', to: 'profile#me'
       put '/', to: 'profile#edit'

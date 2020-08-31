@@ -6,7 +6,13 @@ class HabitsController < ApplicationController
   # GET /habits
   def index
     # get habits for current user only
-    render json: @current_user.habits
+
+    habits = @current_user.habits.only(
+        :name,
+        :description,
+    )
+
+    render json: paginate(habits)
   end
 
   # POST /habits
@@ -40,7 +46,7 @@ class HabitsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_habit
-    @habit = @current_user.habits.find(params[:id])
+    @habit = @current_user.habits.find(params[:id]).attributes.except(:user_id)
   end
 
   # Only allow a trusted parameter "white list" through.
